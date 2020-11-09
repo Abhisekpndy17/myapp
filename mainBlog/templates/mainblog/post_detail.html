@@ -1,0 +1,61 @@
+{% extends 'mainblog/base.html' %}
+
+{% block content %}
+<div class="container">
+    <h1 class="display-5 font-weight-bold lh-base mt-5">Post Details Page</h1>
+    <div class="card mt-5 mb-5">
+        <div class="card-header display-6 rounded" >
+            {{post.title}}
+        </div>
+        <div class="card-body mt-3">
+            <p class="card-title p-2">{{post.date_added}}</p>
+            <p class="card-text">{{post.body | safe }}</p>
+        </div>
+    </div>
+    <hr>
+    <!-- This is second card items where comment is display-->
+    <div class="container">
+        <div class="text-muted display-5">All Comments</div>
+        {% for comment in post.comments.all %}
+
+        <div class="card mt-5 mb-5" style="width: 80%; margin: 0px auto;">
+            <div class="card-header display-6 rounded text-white" style="background-color: #4f5257;">
+                {{comment.name}}
+            </div>
+            <div class="card-body">
+                <p class="card-title p-1"><i class="fas fa-calendar-alt"></i> {{comment.date_added}}</p>
+                <p class="card-text"> <i class="fas fa-comments"></i> {{comment.body}}</p>
+            </div>
+        </div>
+        {% empty %}
+        <div class="card p-3">
+            <div class="card-text text-muted"> <i class="fas fa-exclamation-triangle"></i> There is no any comments!</div>
+        </div>
+        {% endfor %}
+    </div>
+    <!--end the display comment area-->
+    <hr>
+        <div class="container mt-5 mb-5">
+            <div class="row">
+            <div class="col-md-8">
+                <img src="https://toppng.com/uploads/preview/abstract-lines-black-and-white-png-11552249642nfvhhra5dk.png"
+                    class="img-fluid" alt="...">
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header display-6 rounded">
+                        Give Comment On Post <i class="fas fa-comments"></i>
+                    </div>
+                    <div class="card-body mt-3">
+                        <form action="." method="post">
+                            {% csrf_token %}
+                            {{ form.as_p}}
+                            <button class="btn btn-secondary">Submit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock  %}
